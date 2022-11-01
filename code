@@ -1,0 +1,107 @@
+import os
+from time import sleep
+import keyboard
+
+
+def drawer(lista):
+    os.system('cls')
+    for i in range(10):
+        r = "bbbbbbbbbb"
+        for y in range(10):
+            if (lista[i][y] == 1):
+                r = r.replace("b", " ○", 1)
+            elif (lista[i][y] == 2):
+                r = r.replace("b", " ⓿", 1)
+            elif (lista[i][y] == 3):
+                r = r.replace("b", " ⑧", 1)
+            else:
+                r = r.replace("b", "  ", 1)
+        print(r)
+                                                # 3 tail,  2 head, 1 body, 0 void
+def finder(pole,num):
+    x = 0
+    y = 0
+    for i in range(len(pole)):
+        try:
+            x = pole[i].index(num)
+            y = i
+        except:
+            pass
+    return x,y
+
+def kbrdlisten(previous):
+    if (keyboard.is_pressed('down') and previous != 'up'):
+        return 'down'
+    if (keyboard.is_pressed(('up')) and previous != 'down'):
+        return 'up'
+    if (keyboard.is_pressed('left') and previous != 'right'):
+        return 'left'
+    if (keyboard.is_pressed('right') and previous != 'left'):
+        return 'right'
+    else :
+        return previous
+
+
+pole = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+czyzyje = True
+pole[5][5] = 2
+pole[4][5] = 1
+pole[3][5] = 3
+lenght = 3
+
+
+
+rounds = 0
+previous_dir = ['down', 'down']
+key_pressed = 'down'
+while (czyzyje):
+
+   key_pressed = kbrdlisten(key_pressed)
+   previous_dir.append(key_pressed)
+
+   drawer(pole)
+   
+   x_tail,y_tail = finder(pole,3)
+   x_head,y_head = finder(pole,2)
+
+   if ((x_head == 9  and key_pressed == 'right') or (x_head == 0 and key_pressed == 'left') or (y_head == 0 and key_pressed == 'up') or (y_head == 9 and key_pressed == 'down')):
+      break
+   else:
+      if (key_pressed == 'up'):
+          if (pole[y_head-1][x_head] == 0):
+            pole[y_head-1][x_head] = 2
+          else:
+              break
+      if (key_pressed == 'down'):
+          if (pole[y_head+1][x_head] == 0):
+            pole[y_head +1 ][x_head] = 2
+          else:
+              break
+      if (key_pressed == 'left'):
+          if (pole[y_head][x_head - 1] == 0):
+            pole[y_head][x_head - 1] = 2
+          else :
+              break
+      if (key_pressed == 'right'):
+          if (pole[y_head][x_head + 1] == 0):
+            pole[y_head][x_head + 1] = 2
+          else:
+              break
+      pole[y_head][x_head] = 1
+
+   if (previous_dir[rounds] == 'up'):
+        pole[y_tail - 1][x_tail] = 3
+   if (previous_dir[rounds] == 'down'):
+        pole[y_tail + 1][x_tail] = 3
+   if (previous_dir[rounds] == 'left'):
+        pole[y_tail][x_tail - 1] = 3
+   if (previous_dir[rounds] == 'right'):
+        pole[y_tail][x_tail + 1] = 3
+   pole[y_tail][x_tail] = 0
+   rounds += 1
+   sleep(1)
+
+os.system('cls')
+print(f"             END"
+      f"            SCREEN")
+sleep(5)
