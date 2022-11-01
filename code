@@ -2,7 +2,23 @@ import os
 from time import sleep
 import keyboard, random
 
-
+def invertedpolepluscheck (num, czyx):
+    if czyx:
+        try:
+            if pole[y_head][x_head + 1] == num:
+                return False
+            else:
+                return True
+        except:
+            return True
+    else:
+        try:
+            if pole[y_head+1][x_head] == num:
+                return False
+            else:
+                return True
+        except:
+            return True
 def polepluscheck (num, czyx):
     if czyx:
         try:
@@ -22,19 +38,19 @@ def polepluscheck (num, czyx):
             return False
 def apple_adder(pole):
     while(True):
-        x_location = random.randint(1, dimensions - 1)
-        y_location = random.randint(1, dimensions -1)
+        x_location = random.randint(1, dimensions - 2)
+        y_location = random.randint(1, dimensions -2)
         if (pole[y_location][x_location] == 0):
             pole[y_location][x_location] = 4
             break
 def drawer(lista):
     os.system('cls')
     print(borders)
-    for i in range(0, dimensions):
+    for i in range(0, dimensions - 1):
         r = ""
-        for a in range(0, dimensions):
+        for a in range(0, dimensions - 1):
             r = r.replace("","b",1)
-        for y in range(0, dimensions):
+        for y in range(0, dimensions - 1):
             if (lista[i][y] == 1):
                 r = r.replace("b", " ○", 1)
             elif (lista[i][y] == 2):
@@ -75,7 +91,8 @@ def kbrdlisten(previous):
     else :
         return previous
 
-dimensions = int(input("ENTER AREA DIMENSIONS"))
+dimensions = int(input("ENTER AREA DIMENSIONS "))
+speed = int(input("ENTER SPEED "))
 borders = ""
 for i in range(dimensions):
     borders = borders.replace("", "QQ", 1 )
@@ -93,7 +110,6 @@ pole[3][5] = 3
 lenght = 0
 
 
-
 rounds = 0
 previous_dir = ['down', 'down']
 key_pressed = 'down'
@@ -103,8 +119,6 @@ while (czyzyje):
    previous_dir.append(key_pressed)
 
    drawer(pole)
-   print(key_pressed)
-
 
    x_tail,y_tail = finder(pole,3)
    x_head,y_head = finder(pole,2)
@@ -113,12 +127,12 @@ while (czyzyje):
       break
    else:
 
-        print(pole[y_head - 1][x_head])
+
         if (key_pressed != 'up' or pole[y_head - 1][x_head] != 4) and (
-                key_pressed != 'down' or pole[y_head + 1][x_head] != 4) and (
+                key_pressed != 'down' or invertedpolepluscheck(4, False)) and (
                 key_pressed != 'left' or pole[y_head][x_head - 1] != 4) and (
-                key_pressed != 'right' or pole[y_head][x_head + 1] != 4):
-            print("jestem w elsie")
+                key_pressed != 'right' or invertedpolepluscheck(4, True)):
+
             if (previous_dir[rounds] == 'up'):
                pole[y_tail - 1][x_tail] = 3
             if (previous_dir[rounds] == 'down'):
@@ -133,7 +147,7 @@ while (czyzyje):
 
             lenght += 1
             rounds -= 1
-            print("we did it")
+
         if (key_pressed == 'up'):
             if (pole[y_head-1][x_head] == 0 or pole[y_head-1][x_head]==4):
               pole[y_head-1][x_head] = 2
@@ -158,10 +172,11 @@ while (czyzyje):
         rounds += 1
         if finder(pole, 4) == False :
             apple_adder(pole)
-        sleep(0.5)
+        sleep(1/speed)
 
 os.system('cls')
 print(f"             END"
-      f"            SCREEN"
-      f"       YOUR SCORE IS {lenght}")
+      f"            SCREEN")
+print( f"      YOUR SCORE IS {lenght}")
 sleep(5)
+
