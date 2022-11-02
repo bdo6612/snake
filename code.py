@@ -97,6 +97,15 @@ speed = int(input("ENTER SPEED "))
 if dimensions==0 or speed == 0:
     print("cannot be 0")
     exit(0)
+
+if dimensions < 6:
+    print("area too small")
+    exit(0)
+
+if speed < 0:
+    print("nope, the snek wont go backwards")
+    exit(0)
+
 borders = ""
 for i in range(dimensions):
     borders = borders.replace("", "QQ", 1 )
