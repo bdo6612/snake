@@ -2,23 +2,6 @@ import os
 from time import sleep
 import keyboard, random
 
-def invertedpolepluscheck (num, czyx):
-    if czyx:
-        try:
-            if pole[y_head][x_head + 1] == num:
-                return False
-            else:
-                return True
-        except:
-            return True
-    else:
-        try:
-            if pole[y_head+1][x_head] == num:
-                return False
-            else:
-                return True
-        except:
-            return True
 def polepluscheck (num, czyx):
     if czyx:
         try:
@@ -36,6 +19,13 @@ def polepluscheck (num, czyx):
                 return False
         except:
             return False
+
+def invertedpolepluscheck(num, czyx):
+    if polepluscheck(num, czyx): 
+        return False
+    return True
+
+
 def apple_adder(pole):
     while(True):
         x_location = random.randint(1, dimensions - 2)
@@ -43,8 +33,9 @@ def apple_adder(pole):
         if (pole[y_location][x_location] == 0):
             pole[y_location][x_location] = 4
             break
+
 def drawer(lista):
-    os.system('cls')
+    os.system('clear')
     print(borders)
     for i in range(0, dimensions - 1):
         r = ""
@@ -52,13 +43,13 @@ def drawer(lista):
             r = r.replace("","b",1)
         for y in range(0, dimensions - 1):
             if (lista[i][y] == 1):
-                r = r.replace("b", " ○", 1)
+                r = r.replace("b", "# ", 1)
             elif (lista[i][y] == 2):
-                r = r.replace("b", " ⓿", 1)
+                r = r.replace("b", "@ ", 1)
             elif (lista[i][y] == 3):
-                r = r.replace("b", " ⑧", 1)
+                r = r.replace("b", "■ ", 1)
             elif (lista[i][y] == 4):
-                r = r.replace("b", " x", 1)
+                r = r.replace("b", "x ", 1)
             else:
                 r = r.replace("b", "  ", 1)
 
@@ -97,6 +88,15 @@ speed = int(input("ENTER SPEED "))
 if dimensions==0 or speed == 0:
     print("cannot be 0")
     exit(0)
+
+if dimensions < 6:
+    print("area too small")
+    exit(0)
+
+if speed < 0:
+    print("nope, the snek wont go backwards")
+    exit(0)
+
 borders = ""
 for i in range(dimensions):
     borders = borders.replace("", "QQ", 1 )
