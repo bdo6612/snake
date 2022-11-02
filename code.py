@@ -93,6 +93,7 @@ def kbrdlisten(previous):
 
 dimensions = int(input("ENTER AREA DIMENSIONS "))
 speed = int(input("ENTER SPEED "))
+
 if dimensions==0 or speed == 0:
     print("cannot be 0")
     exit(0)
